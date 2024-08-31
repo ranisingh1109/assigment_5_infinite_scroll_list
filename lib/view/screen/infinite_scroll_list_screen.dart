@@ -4,14 +4,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import '../../controller/getx_controller.dart';
 
-class InfiniteScrollScreen extends StatelessWidget {
+class InfiniteScrollScreen extends StatefulWidget {
+  @override
+  State<InfiniteScrollScreen> createState() => _InfiniteScrollScreenState();
+}
+
+class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
   final InfiniteScrollController controller = Get.put(InfiniteScrollController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('Infinite Scroll ')),
+        title: Center(child: const Text('Infinite Scroll')),
       ),
       body: Obx(() => RefreshIndicator(
         onRefresh: controller.refreshItems,
@@ -43,6 +48,9 @@ class InfiniteScrollScreen extends StatelessWidget {
           placeholder: (context, url) => const Center(
             child: CupertinoActivityIndicator(),
           ),
+          errorWidget: (context, url, error) => const Center(
+            child: Icon(Icons.error, color: Colors.red),
+          ),
           fit: BoxFit.cover,
         ),
       ),
@@ -52,16 +60,16 @@ class InfiniteScrollScreen extends StatelessWidget {
   Widget loaderImage(bool isLoading, bool hasError) {
     if (isLoading) {
       return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 19.0),
+        padding: EdgeInsets.symmetric(vertical: 16.0),
         child: Center(child: CupertinoActivityIndicator()),
       );
     } else if (hasError) {
       return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 19.0),
+        padding: EdgeInsets.symmetric(vertical: 16.0),
         child: Center(child: Text('Error loading data', style: TextStyle(color: Colors.red))),
       );
     } else {
-      return const SizedBox.shrink();
+      return SizedBox.shrink();
     }
   }
 }
